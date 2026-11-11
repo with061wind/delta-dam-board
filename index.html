@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="零号大坝编成情报板：左右两岸、六支小队、十八个席位，记录干员、头甲、死后状态与皮肤信息。纯本地运行。">
+  <meta name="color-scheme" content="dark">
+  <title>零号大坝 · 情报板</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="零号大坝情报板首页">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 36 40" fill="none">
+            <path d="M18 2 33 10.6v18.8L18 38 3 29.4V10.6Z" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M18 7.6 28.2 13.6v12.8L18 32.4 7.8 26.4V13.6Z" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-opacity=".35"/>
+            <path d="M10.8 23.2h14.4M18 14.2v10.2" stroke="#f1e5c8" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M13.2 28.6h9.6" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>零号大坝</strong>
+          <small>DAM INTEL BOARD</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="主导航">
+        <button class="nav-item" type="button" data-open-map>地图 <small>MAP</small></button>
+        <a class="nav-item" href="dam.html">编成台 <small>BOARD</small></a>
+      </nav>
+
+      <div class="header-meta">
+        <span class="status-pill"><i aria-hidden="true"></i>LOCAL ONLY</span>
+        <span class="header-clock" id="header-clock" aria-label="本地时间">--</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="home-main" id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow hero-kicker">OPERATION / ZERO DAM</p>
+        <h1 id="hero-title">把每一次<br><span class="accent">下坝</span>，变成<br>可复用的情报。</h1>
+        <p class="hero-lede">
+          左右两岸、六支小队、十八个席位。为每个位置记录干员、头甲等级、死后状态与皮肤——
+          <strong>全部选填，自动保存在本机。</strong>
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button" data-open-map>
+            <span data-icon="map"></span>
+            选择地图
+          </button>
+          <a class="btn btn-outline" href="dam.html">
+            直接进入编成台
+            <span data-icon="arrow"></span>
+          </a>
+        </div>
+
+        <dl class="hero-metrics" aria-label="情报板概况">
+          <div class="hero-metric">
+            <dt>SLOTS / 席位</dt>
+            <dd>18<small>个固定位置</small></dd>
+          </div>
+          <div class="hero-metric">
+            <dt>SQUADS / 小队</dt>
+            <dd>06<small>三队 × 两岸</small></dd>
+          </div>
+          <div class="hero-metric">
+            <dt>CONFIGURED / 已配置</dt>
+            <dd><span id="hero-configured">00</span><small>个席位</small></dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="hero-visual">
+        <div class="map-frame corner-frame">
+          <div class="map-frame-head">
+            <span>ZERO DAM / TACTICAL MAP</span>
+            <span class="map-live">SECTOR 07 · ONLINE</span>
+          </div>
+
+          <button class="map-preview" type="button" data-open-map aria-label="打开地图选择，进入零号大坝">
+            <img src="assets/dam-map.svg" alt="零号大坝战术地图预览" width="1200" height="760">
+            <span class="preview-scan" aria-hidden="true"></span>
+            <span class="preview-chip">AVAILABLE / 已接入</span>
+            <span class="preview-label">
+              <strong>零号大坝</strong>
+              <span>ZERO DAM · DIFFICULTY 机密</span>
+            </span>
+            <span class="preview-enter">点击选择地图 <span data-icon="arrow"></span></span>
+          </button>
+
+          <div class="map-frame-foot">
+            <span class="frame-coord">
+              <span>31°14'22"N / 121°28'09"E</span>
+              <strong>GRID 07 · 大坝控制区</strong>
+            </span>
+            <span class="frame-status"><i aria-hidden="true"></i>本地地图 · 可进入</span>
+          </div>
+        </div>
+
+        <div class="float-chip float-chip-a">
+          <span data-icon="target"></span>
+          <span><strong>6</strong> SQUADS / <strong>18</strong> SLOTS</span>
+        </div>
+        <div class="float-chip float-chip-b">
+          <span data-icon="shield"></span>
+          <span>LOCAL STORAGE <strong>·</strong> NO CLOUD</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="briefing" aria-label="使用方式">
+      <article class="briefing-item">
+        <span class="briefing-num">01</span>
+        <div>
+          <h2>先选地图</h2>
+          <p>从主页进入地图，再选择当前唯一接入的「零号大坝」。</p>
+        </div>
+      </article>
+      <article class="briefing-item">
+        <span class="briefing-num">02</span>
+        <div>
+          <h2>左右两岸 · 三队三席</h2>
+          <p>左岸与右岸各三支小队，每队三个位置，点击任意席位开始配置。</p>
+        </div>
+      </article>
+      <article class="briefing-item">
+        <span class="briefing-num">03</span>
+        <div>
+          <h2>只记你需要的信息</h2>
+          <p>干员、头甲、死后、皮肤互不强制；留空也可以，随时回来继续。</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-title">
+      <div class="resume-panel is-empty" id="resume-panel">
+        <div class="resume-copy">
+          <p class="eyebrow">LAST LOADOUT / 上次编成</p>
+          <h2 id="resume-title">还没有建立编成。</h2>
+          <p id="resume-desc">选择零号大坝后，所有内容会自动保存在当前浏览器；不需要登录，也不会上传。</p>
+          <div class="resume-progress" aria-hidden="true">
+            <div class="progress-track"><i id="resume-progress-bar"></i></div>
+            <span id="resume-progress-text">0 / 18</span>
+          </div>
+          <span class="saved-time" id="resume-saved">
+            <span data-icon="clock"></span>
+            尚未保存
+          </span>
+        </div>
+
+        <div class="resume-stats" aria-label="上次编成统计">
+          <div class="resume-stat">
+            <strong id="resume-operators">00</strong>
+            <span>已配干员</span>
+          </div>
+          <div class="resume-stat">
+            <strong id="resume-slots">00</strong>
+            <span>已填席位</span>
+          </div>
+          <div class="resume-stat">
+            <strong id="resume-percent">0%</strong>
+            <span>编成进度</span>
+          </div>
+        </div>
+
+        <div class="resume-action">
+          <a class="btn btn-primary" id="resume-link" href="dam.html" hidden>
+            继续编成
+            <span data-icon="arrow"></span>
+          </a>
+          <button class="btn btn-outline" id="resume-map" type="button" data-open-map>
+            选择地图
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>非官方本地工具 · 数据仅保存在当前浏览器 · 不上传服务器</p>
+    <p>DELTA FORCE / DAM INTEL BOARD — V1.0</p>
+  </footer>
+
+  <!-- 地图选择 -->
+  <div class="modal map-modal" id="map-modal" hidden>
+    <div class="modal-scrim" data-close-map></div>
+    <section class="modal-panel map-modal-panel" role="dialog" aria-modal="true" aria-labelledby="map-modal-title" tabindex="-1">
+      <span class="corner corner-tl"></span>
+      <span class="corner corner-tr"></span>
+      <span class="corner corner-bl"></span>
+      <span class="corner corner-br"></span>
+
+      <header class="modal-head">
+        <div>
+          <p class="eyebrow">MAP SELECT / 行动区域</p>
+          <h2 id="map-modal-title">选择地图</h2>
+        </div>
+        <button class="icon-btn" type="button" data-close-map aria-label="关闭地图选择">
+          <span data-icon="close"></span>
+        </button>
+      </header>
+
+      <div class="map-modal-body">
+        <div class="map-options">
+          <button class="map-option map-option-feature" type="button" data-enter-dam>
+            <span class="map-thumb">
+              <img src="assets/dam-map.svg" alt="零号大坝地图" width="1200" height="760">
+              <span class="map-option-badge">AVAILABLE / 可用</span>
+            </span>
+            <span class="map-option-body">
+              <strong class="map-option-title">零号大坝</strong>
+              <span class="map-option-desc">大坝控制区 · 六队十八席。行政区、电站、军营与地下通道的编成情报在此汇总。</span>
+              <span class="map-option-meta">
+                <span><span data-icon="layers"></span>3 SQUADS / SIDE</span>
+                <span><span data-icon="user"></span>18 SLOTS</span>
+                <span><span data-icon="shield"></span>机密</span>
+              </span>
+              <span class="map-option-cta">
+                进入大坝编成台
+                <span data-icon="arrow"></span>
+              </span>
+            </span>
+          </button>
+
+          <button class="map-option map-option-side is-locked" type="button" data-locked-map="长弓溪谷" aria-disabled="true">
+            <span class="ghost-map" aria-hidden="true"><span data-icon="map"></span></span>
+            <span class="map-option-body">
+              <strong class="map-option-title">长弓溪谷</strong>
+              <span class="map-lock-label"><span data-icon="lock"></span>待接入</span>
+              <span class="map-option-desc">该区域情报尚未开放。</span>
+            </span>
+          </button>
+
+          <button class="map-option map-option-side is-locked" type="button" data-locked-map="巴克什" aria-disabled="true">
+            <span class="ghost-map" aria-hidden="true"><span data-icon="map"></span></span>
+            <span class="map-option-body">
+              <strong class="map-option-title">巴克什</strong>
+              <span class="map-lock-label"><span data-icon="lock"></span>待接入</span>
+              <span class="map-option-desc">该区域情报尚未开放。</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="map-modal-foot">
+          <span><span data-icon="info"></span>当前版本仅接入「零号大坝」</span>
+          <span>选择地图后进入编成台 · 所有字段均可留空</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast-root" id="toast-root" aria-live="polite"></div>
+
+  <noscript>
+    <p style="padding:20px;color:#e3a34d">这个本地情报板需要 JavaScript 才能记录编成，请在浏览器中启用 JavaScript。</p>
+  </noscript>
+
+  <script src="js/core.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/store.js" defer></script>
+  <script src="js/home.js" defer></script>
+</body>
+</html>
