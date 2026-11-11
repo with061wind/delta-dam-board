@@ -171,6 +171,13 @@
 
   let toastRoot = null;
 
+  function clearToasts() {
+    if (!toastRoot) return;
+    toastRoot.querySelectorAll('.toast').forEach(function (item) {
+      item.remove();
+    });
+  }
+
   function toast(message, type, duration) {
     if (!toastRoot) {
       toastRoot = document.getElementById('toast-root');
@@ -182,6 +189,8 @@
         document.body.appendChild(toastRoot);
       }
     }
+    // 手机端快速连续操作时只保留最新一条，避免提示层叠挡住内容。
+    clearToasts();
     const kind = type || 'default';
     const item = document.createElement('div');
     item.className = 'toast toast-' + kind;
@@ -191,7 +200,7 @@
     requestAnimationFrame(function () {
       item.classList.add('is-visible');
     });
-    const delay = duration || 2800;
+    const delay = duration || 2200;
     setTimeout(function () {
       item.classList.remove('is-visible');
       item.classList.add('is-leaving');
@@ -277,6 +286,7 @@
     formatRelative: formatRelative,
     initModal: initModal,
     toast: toast,
+    clearToasts: clearToasts,
     copyText: copyText,
     downloadFile: downloadFile,
     debounce: debounce,

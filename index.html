@@ -2,13 +2,14 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="零号大坝编成情报板：左右两岸、六支小队、十八个席位，记录干员、头甲、死后状态与皮肤信息。纯本地运行。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="零号大坝快速编成情报板：先记本局出生侧与位置，点击干员立即保存；头甲、皮肤、存活状态随后补充。手机优先，纯本地运行。">
   <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0a0e0b">
   <title>零号大坝 · 情报板</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/base.css?v=2">
+  <link rel="stylesheet" href="css/home.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -48,7 +49,7 @@
         <p class="eyebrow hero-kicker">OPERATION / ZERO DAM</p>
         <h1 id="hero-title">把每一次<br><span class="accent">下坝</span>，变成<br>可复用的情报。</h1>
         <p class="hero-lede">
-          左右两岸、六支小队、十八个席位。为每个位置记录干员、头甲等级、死后状态与皮肤——
+          先点干员完成记录，头甲、皮肤、存活状态随时补。左右两岸、六支小队、十八个席位——
           <strong>全部选填，自动保存在本机。</strong>
         </p>
 
@@ -73,8 +74,8 @@
             <dd>06<small>三队 × 两岸</small></dd>
           </div>
           <div class="hero-metric">
-            <dt>CONFIGURED / 已配置</dt>
-            <dd><span id="hero-configured">00</span><small>个席位</small></dd>
+            <dt>OPERATORS / 已记录</dt>
+            <dd><span id="hero-configured">00</span><small>名干员</small></dd>
           </div>
         </dl>
       </div>
@@ -128,15 +129,15 @@
       <article class="briefing-item">
         <span class="briefing-num">02</span>
         <div>
-          <h2>左右两岸 · 三队三席</h2>
-          <p>左岸与右岸各三支小队，每队三个位置，点击任意席位开始配置。</p>
+          <h2>先记本局出生</h2>
+          <p>选择左岸或右岸、一号位或非一号位；出生侧会自动排在编成台上方。</p>
         </div>
       </article>
       <article class="briefing-item">
         <span class="briefing-num">03</span>
         <div>
-          <h2>只记你需要的信息</h2>
-          <p>干员、头甲、死后、皮肤互不强制；留空也可以，随时回来继续。</p>
+          <h2>点干员即保存</h2>
+          <p>干员优先记录；头甲、皮肤、存活/死亡随后点开补充，不再需要确认按钮。</p>
         </div>
       </article>
     </section>
@@ -160,7 +161,7 @@
         <div class="resume-stats" aria-label="上次编成统计">
           <div class="resume-stat">
             <strong id="resume-operators">00</strong>
-            <span>已配干员</span>
+            <span>已记录干员</span>
           </div>
           <div class="resume-stat">
             <strong id="resume-slots">00</strong>
@@ -264,9 +265,9 @@
     <p style="padding:20px;color:#e3a34d">这个本地情报板需要 JavaScript 才能记录编成，请在浏览器中启用 JavaScript。</p>
   </noscript>
 
-  <script src="js/core.js" defer></script>
-  <script src="js/data.js" defer></script>
-  <script src="js/store.js" defer></script>
-  <script src="js/home.js" defer></script>
+  <script src="js/core.js?v=2" defer></script>
+  <script src="js/data.js?v=2" defer></script>
+  <script src="js/store.js?v=2" defer></script>
+  <script src="js/home.js?v=2" defer></script>
 </body>
 </html>

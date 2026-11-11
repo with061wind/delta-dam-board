@@ -6,38 +6,35 @@
       id: 'assault',
       label: '突击',
       en: 'ASSAULT',
-      color: '#e47b52',
-      hint: '突破 · 接敌'
+      color: '#e47b52'
     },
     engineer: {
       id: 'engineer',
       label: '工程',
       en: 'ENGINEER',
-      color: '#d6a850',
-      hint: '布防 · 控场'
+      color: '#d6a850'
     },
     support: {
       id: 'support',
       label: '支援',
       en: 'SUPPORT',
-      color: '#7fbd8d',
-      hint: '救援 · 续航'
+      color: '#7fbd8d'
     },
     recon: {
       id: 'recon',
       label: '侦察',
       en: 'RECON',
-      color: '#68a9c8',
-      hint: '索敌 · 信息'
+      color: '#68a9c8'
     }
   };
 
-  // 名称用于本地编成记录；只保留公开代号与定位，不依赖任何在线数据。
+  // 名称按实际组队时的常用叫法显示；aliases 用于搜索旧称。
   const OPERATORS = [
     {
       id: 'redwolf',
       name: '红狼',
       en: 'D-WOLF',
+      aliases: ['黑狼'],
       role: 'assault',
       glyph: '狼',
       accent: '#df7047',
@@ -47,15 +44,17 @@
       id: 'vyron',
       name: '威龙',
       en: 'VYRON',
+      aliases: ['白龙'],
       role: 'assault',
       glyph: '龙',
-      accent: '#c95e3f',
+      accent: '#d08355',
       tag: '虎蹲炮 · 区域压制'
     },
     {
       id: 'unnamed',
       name: '无名',
       en: 'UNNAMED',
+      aliases: [],
       role: 'assault',
       glyph: '无',
       accent: '#b98055',
@@ -65,6 +64,7 @@
       id: 'gale',
       name: '疾风',
       en: 'GALE',
+      aliases: [],
       role: 'assault',
       glyph: '风',
       accent: '#d39a56',
@@ -74,6 +74,7 @@
       id: 'wildfire',
       name: '野火',
       en: 'WILDFIRE',
+      aliases: [],
       role: 'assault',
       glyph: '火',
       accent: '#e0673f',
@@ -81,10 +82,11 @@
     },
     {
       id: 'shepherd',
-      name: '牧羊人',
+      name: '老黑',
       en: 'SHEPHERD',
+      aliases: ['牧羊人'],
       role: 'engineer',
-      glyph: '牧',
+      glyph: '黑',
       accent: '#c6a153',
       tag: '声波陷阱 · 后方布防'
     },
@@ -92,6 +94,7 @@
       id: 'uluru',
       name: '乌鲁鲁',
       en: 'ULURU',
+      aliases: [],
       role: 'engineer',
       glyph: '鲁',
       accent: '#bf8c45',
@@ -101,6 +104,7 @@
       id: 'bit',
       name: '比特',
       en: 'BIT',
+      aliases: [],
       role: 'engineer',
       glyph: '比',
       accent: '#d3a95d',
@@ -110,6 +114,7 @@
       id: 'deepblue',
       name: '深蓝',
       en: 'DEEPBLUE',
+      aliases: [],
       role: 'engineer',
       glyph: '蓝',
       accent: '#8d9e63',
@@ -119,6 +124,7 @@
       id: 'cryo',
       name: '液氮',
       en: 'CRYO',
+      aliases: [],
       role: 'engineer',
       glyph: '氮',
       accent: '#7fa9a4',
@@ -128,35 +134,39 @@
       id: 'stinger',
       name: '蜂医',
       en: 'STINGER',
+      aliases: [],
       role: 'support',
-      glyph: '医',
+      glyph: '蜂',
       accent: '#75b886',
       tag: '激素枪 · 烟幕救援'
+    },
+    {
+      id: 'papillon',
+      name: '女医',
+      en: 'PAPILLON',
+      aliases: ['蝶'],
+      role: 'support',
+      glyph: '医',
+      accent: '#93b48b',
+      tag: '医疗支援 · 团队续航'
     },
     {
       id: 'toxik',
       name: '蛊',
       en: 'TOXIK',
+      aliases: [],
       role: 'support',
       glyph: '蛊',
       accent: '#95a95d',
       tag: '毒素干扰 · 持续侵蚀'
     },
     {
-      id: 'papillon',
-      name: '蝶',
-      en: 'PAPILLON',
-      role: 'support',
-      glyph: '蝶',
-      accent: '#93b48b',
-      tag: '战场增益 · 团队续航'
-    },
-    {
       id: 'hackclaw',
-      name: '骇爪',
+      name: '麦晓雯',
       en: 'HACKCLAW',
+      aliases: ['骇爪'],
       role: 'recon',
-      glyph: '爪',
+      glyph: '麦',
       accent: '#5e9fbd',
       tag: '电子攻防 · 踪迹追踪'
     },
@@ -164,6 +174,7 @@
       id: 'luna',
       name: '露娜',
       en: 'LUNA',
+      aliases: [],
       role: 'recon',
       glyph: '月',
       accent: '#79a9bd',
@@ -173,6 +184,7 @@
       id: 'silverwing',
       name: '银翼',
       en: 'SILVERWING',
+      aliases: [],
       role: 'recon',
       glyph: '翼',
       accent: '#8aa6b2',
@@ -182,6 +194,7 @@
       id: 'echo',
       name: '回响',
       en: 'ECHO',
+      aliases: [],
       role: 'recon',
       glyph: '响',
       accent: '#6f9aaa',
@@ -198,22 +211,28 @@
     { level: 6, roman: 'Ⅵ', name: '六级', color: '#d35d4d', hint: '重装' }
   ];
 
-  const DEATH_STATES = [
-    { id: 'alive', label: '存活', color: '#8fc58d', desc: '仍在场' },
-    { id: 'dead', label: '阵亡', color: '#df7461', desc: '已倒下' },
-    { id: 'unclear', label: '待确认', color: '#d1aa62', desc: '状态不明' }
+  // 只保留你指定的干员皮肤；没有列出的干员不显示皮肤选项。
+  const SKINS = [
+    { id: 'white-dragon', name: '白龙', operatorId: 'vyron', color: '#d9d8ca', color2: '#8b9180' },
+    { id: 'black-wolf', name: '黑狼', operatorId: 'redwolf', color: '#5d5f5b', color2: '#242522' },
+    { id: 'old-black-red', name: '红', operatorId: 'shepherd', color: '#c94a3d', color2: '#6e211b' },
+    { id: 'uluru-red', name: '红皮', operatorId: 'uluru', color: '#d05a3f', color2: '#783024' },
+    { id: 'red-medic', name: '红医', operatorId: 'papillon', color: '#d46870', color2: '#7c3038' },
+    { id: 'luna-cat', name: '猫猫头', operatorId: 'luna', color: '#c0a6a3', color2: '#735b5a' },
+    { id: 'white-wheat', name: '白小麦', operatorId: 'hackclaw', color: '#d7d6c7', color2: '#899083' },
+    { id: 'red-wheat', name: '红小麦', operatorId: 'hackclaw', color: '#ca6651', color2: '#713026' },
+    { id: 'silver-white', name: '白皮', operatorId: 'silverwing', color: '#cdd7d7', color2: '#7d8e91' }
   ];
 
-  const SKINS = [
-    { id: 'field', name: '制式', color: '#929b88', color2: '#4f574a' },
-    { id: 'sand', name: '沙暴', color: '#cba06a', color2: '#80633d' },
-    { id: 'night', name: '夜袭', color: '#657188', color2: '#2e3542' },
-    { id: 'crimson', name: '赤焰', color: '#c05c45', color2: '#6d2f27' },
-    { id: 'arctic', name: '极地', color: '#b6d2cf', color2: '#668684' },
-    { id: 'pulse', name: '脉冲', color: '#53c5b2', color2: '#1f6e67' },
-    { id: 'blackgold', name: '黑金', color: '#c9a44e', color2: '#4e3f1d' },
-    { id: 'moss', name: '苔原', color: '#7d8a5e', color2: '#414a2f' }
-  ];
+  const DEATH_STATES = {
+    alive: { id: 'alive', label: '存活', color: '#7fcf8e' },
+    dead: { id: 'dead', label: '死亡', color: '#e06552' }
+  };
+
+  const SPAWN_POSITIONS = {
+    first: { id: 'first', label: '一号位', short: '1号位' },
+    other: { id: 'other', label: '非一号位', short: '非1' }
+  };
 
   const TEAM_NAMES = [
     { label: '一号队', en: 'ALPHA' },
@@ -242,23 +261,34 @@
 
   const OPERATOR_MAP = {};
   OPERATORS.forEach(function (operator) {
+    operator.activeSkins = [];
     OPERATOR_MAP[operator.id] = operator;
   });
 
   const SKIN_MAP = {};
+  const SKINS_BY_OPERATOR = {};
   SKINS.forEach(function (skin) {
     SKIN_MAP[skin.id] = skin;
-  });
-
-  const DEATH_MAP = {};
-  DEATH_STATES.forEach(function (state) {
-    DEATH_MAP[state.id] = state;
+    if (!SKINS_BY_OPERATOR[skin.operatorId]) SKINS_BY_OPERATOR[skin.operatorId] = [];
+    SKINS_BY_OPERATOR[skin.operatorId].push(skin);
+    if (OPERATOR_MAP[skin.operatorId]) OPERATOR_MAP[skin.operatorId].activeSkins.push(skin);
   });
 
   const ARMOR_MAP = {};
   ARMOR_LEVELS.forEach(function (armor) {
     ARMOR_MAP[armor.level] = armor;
   });
+
+  function getOperatorSkins(operatorId) {
+    return SKINS_BY_OPERATOR[operatorId] || [];
+  }
+
+  function isSkinAllowed(operatorId, skinId) {
+    if (!operatorId || !skinId) return false;
+    return getOperatorSkins(operatorId).some(function (skin) {
+      return skin.id === skinId;
+    });
+  }
 
   window.DeltaData = {
     ROLES: ROLES,
@@ -267,9 +297,12 @@
     ARMOR_LEVELS: ARMOR_LEVELS,
     ARMOR_MAP: ARMOR_MAP,
     DEATH_STATES: DEATH_STATES,
-    DEATH_MAP: DEATH_MAP,
     SKINS: SKINS,
     SKIN_MAP: SKIN_MAP,
+    SKINS_BY_OPERATOR: SKINS_BY_OPERATOR,
+    getOperatorSkins: getOperatorSkins,
+    isSkinAllowed: isSkinAllowed,
+    SPAWN_POSITIONS: SPAWN_POSITIONS,
     TEAM_NAMES: TEAM_NAMES,
     SIDES: SIDES,
     SLOT_COUNT: 18,

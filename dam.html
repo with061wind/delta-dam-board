@@ -2,13 +2,14 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="零号大坝编成台：左岸、右岸各三队，每队三个席位。点击席位选择干员，并选填头甲等级、死后状态与皮肤。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="零号大坝快速编成：先记录本局出生侧与位置，点击干员立即保存；头甲、皮肤、存活状态可随后补充。专为手机局内记录设计。">
   <meta name="color-scheme" content="dark">
-  <title>零号大坝 · 编成台</title>
+  <meta name="theme-color" content="#0a0e0b">
+  <title>零号大坝 · 快速编成</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/base.css?v=2">
+  <link rel="stylesheet" href="css/board.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -35,7 +36,7 @@
         <span data-icon="chevron"></span>
         <b>零号大坝</b>
         <span>/</span>
-        <span>编成台</span>
+        <span>快速编成</span>
       </div>
 
       <div class="board-toolbar">
@@ -60,50 +61,54 @@
     <section class="board-hero" aria-labelledby="board-title">
       <div class="board-title">
         <p class="eyebrow">OPERATION / ZERO DAM</p>
-        <h1 id="board-title">零号大坝 <span>编成台</span></h1>
-        <p>LEFT / RIGHT · 3 SQUADS EACH · 3 SLOTS PER SQUAD · ALL FIELDS OPTIONAL</p>
+        <h1 id="board-title">零号大坝 <span>快速编成</span></h1>
+        <p>点干员即保存 · 头甲 / 皮肤 / 存活状态随后补</p>
       </div>
 
-      <div class="board-progress" aria-label="编成进度">
-        <div class="progress-main">
-          <div class="progress-ring" id="progress-ring" style="--progress: 0">
-            <span id="progress-ring-label">0%</span>
+      <div class="board-hud">
+        <button class="spawn-card" id="open-spawn" type="button" aria-haspopup="dialog">
+          <span class="spawn-card-label">本局出生</span>
+          <strong class="spawn-card-value" id="spawn-label">未设置</strong>
+          <span class="spawn-card-action"><span data-icon="target"></span>设置</span>
+        </button>
+
+        <div class="board-progress" aria-label="编成进度">
+          <div class="progress-main">
+            <div class="progress-ring" id="progress-ring" style="--progress: 0">
+              <span id="progress-ring-label">0%</span>
+            </div>
+            <div class="progress-copy">
+              <strong><span id="operators-count">00</span><small> / 18 干员</small></strong>
+              <span id="slots-count">点击干员即记录</span>
+            </div>
           </div>
-          <div class="progress-copy">
-            <strong><span id="operators-count">00</span><small> / 18 干员</small></strong>
-            <span id="slots-count">0 个席位已填写 · 全部选填</span>
-          </div>
+          <div class="progress-track"><i id="progress-bar"></i></div>
         </div>
-        <div class="progress-track"><i id="progress-bar"></i></div>
       </div>
     </section>
 
-    <section class="board-grid" aria-label="六队编成">
-      <section class="side-panel side-left" aria-labelledby="left-side-title">
+    <section class="board-sides" id="board-sides" aria-label="六队编成">
+      <section class="side-panel side-left" data-side="left" id="left-panel" aria-labelledby="left-side-title">
         <header class="side-head">
           <span class="side-code" aria-hidden="true">A</span>
           <div class="side-title">
             <h2 id="left-side-title">左岸 <small>WEST BANK</small></h2>
             <p>A-SIDE / 3 SQUADS · 9 SLOTS</p>
           </div>
+          <span class="spawn-badge" id="left-spawn-badge" hidden>本局出生</span>
           <span class="side-total"><strong id="left-count">0</strong><span>/ 9</span></span>
         </header>
         <div class="teams" id="left-teams"></div>
       </section>
 
-      <div class="board-divider" aria-hidden="true">
-        <span class="divider-line"></span>
-        <span class="divider-mark"><span>DAM</span></span>
-        <span class="divider-line"></span>
-      </div>
-
-      <section class="side-panel side-right" aria-labelledby="right-side-title">
+      <section class="side-panel side-right" data-side="right" id="right-panel" aria-labelledby="right-side-title">
         <header class="side-head">
           <span class="side-code" aria-hidden="true">B</span>
           <div class="side-title">
             <h2 id="right-side-title">右岸 <small>EAST BANK</small></h2>
             <p>B-SIDE / 3 SQUADS · 9 SLOTS</p>
           </div>
+          <span class="spawn-badge" id="right-spawn-badge" hidden>本局出生</span>
           <span class="side-total"><strong id="right-count">0</strong><span>/ 9</span></span>
         </header>
         <div class="teams" id="right-teams"></div>
@@ -112,113 +117,219 @@
 
     <div class="board-legend">
       <div class="legend-group">
-        <span class="legend-item"><i class="legend-swatch armor"></i>头甲等级 Ⅰ–Ⅵ</span>
-        <span class="legend-item"><i class="legend-swatch death"></i>死后状态</span>
-        <span class="legend-item"><i class="legend-swatch skin"></i>皮肤</span>
-        <span class="legend-item">全部选填</span>
+        <span class="legend-item"><i class="legend-swatch op"></i>点击干员即保存</span>
+        <span class="legend-item"><i class="legend-swatch armor"></i>头甲：先头盔后盔甲</span>
+        <span class="legend-item"><i class="legend-swatch skin"></i>皮肤按干员显示</span>
+        <span class="legend-item"><i class="legend-swatch alive"></i>存活 / 死亡</span>
       </div>
-      <p>点击任意席位 → 选择干员 → 补充选填信息 · 修改后自动保存</p>
+      <p>局内优先记干员，其他信息随时补 · 无需确认按钮</p>
     </div>
   </main>
 
   <footer class="site-footer">
     <p>数据仅保存在当前浏览器 · 建议定期使用「导出」备份</p>
-    <p>LOCAL STORAGE · 18 SLOTS · V1.0</p>
+    <p>LOCAL STORAGE · 18 SLOTS · V2.0</p>
   </footer>
 
   <input type="file" id="import-file" accept=".json,application/json" hidden>
 
-  <!-- 席位编辑器 -->
-  <div class="modal editor-modal" id="editor-modal" hidden>
-    <div class="modal-scrim" data-close-editor></div>
-    <section class="modal-panel editor-panel" role="dialog" aria-modal="true" aria-labelledby="editor-title" tabindex="-1">
+  <!-- 本局出生设置 -->
+  <div class="modal spawn-modal" id="spawn-modal" hidden>
+    <div class="modal-scrim" data-close-spawn></div>
+    <section class="modal-panel spawn-panel" role="dialog" aria-modal="true" aria-labelledby="spawn-title" tabindex="-1">
       <span class="corner corner-tl"></span>
       <span class="corner corner-tr"></span>
       <span class="corner corner-bl"></span>
       <span class="corner corner-br"></span>
 
-      <header class="editor-head">
+      <header class="modal-head">
         <div>
-          <p class="eyebrow" id="editor-kicker">SLOT / 席位</p>
-          <h2 id="editor-title">配置席位</h2>
+          <p class="eyebrow">MATCH SETUP / 本局设置</p>
+          <h2 id="spawn-title">本局从哪里进？</h2>
+          <p class="modal-sub">先记出生侧，再记一号位；选择后自动保存。</p>
         </div>
-        <div class="editor-head-right">
-          <span class="optional-tag">全部选填 · 可只选干员</span>
-          <button class="icon-btn" type="button" data-close-editor aria-label="关闭席位编辑器">
+        <button class="icon-btn" type="button" data-close-spawn aria-label="关闭本局设置">
+          <span data-icon="close"></span>
+        </button>
+      </header>
+
+      <div class="spawn-body">
+        <section class="spawn-step" aria-labelledby="spawn-step-side">
+          <div class="spawn-step-head">
+            <span class="step-index">01</span>
+            <div>
+              <h3 id="spawn-step-side">出生在哪一侧？</h3>
+              <p>出生侧会自动排在编成台上方。</p>
+            </div>
+          </div>
+          <div class="spawn-sides" id="spawn-side-options">
+            <button class="spawn-side" type="button" data-spawn-side="left">
+              <span class="spawn-side-code">A-SIDE</span>
+              <strong>左岸</strong>
+              <small>WEST BANK · 3 SQUADS</small>
+              <span class="spawn-check" aria-hidden="true"><span data-icon="check"></span></span>
+            </button>
+            <button class="spawn-side" type="button" data-spawn-side="right">
+              <span class="spawn-side-code">B-SIDE</span>
+              <strong>右岸</strong>
+              <small>EAST BANK · 3 SQUADS</small>
+              <span class="spawn-check" aria-hidden="true"><span data-icon="check"></span></span>
+            </button>
+          </div>
+        </section>
+
+        <section class="spawn-step" id="spawn-pos-step" aria-labelledby="spawn-step-pos">
+          <div class="spawn-step-head">
+            <span class="step-index">02</span>
+            <div>
+              <h3 id="spawn-step-pos">你是几号位？</h3>
+              <p>只记录你的本局位置，不强制填写其他队伍。</p>
+            </div>
+          </div>
+          <div class="spawn-positions" id="spawn-position-options">
+            <button class="spawn-position" type="button" data-spawn-position="first" disabled>
+              <strong>一号位</strong>
+              <small>FIRST</small>
+            </button>
+            <button class="spawn-position" type="button" data-spawn-position="other" disabled>
+              <strong>非一号位</strong>
+              <small>OTHER</small>
+            </button>
+          </div>
+        </section>
+
+        <p class="auto-hint"><span data-icon="save"></span>点第二个选项后自动保存并返回编成台，无需确认按钮。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 干员选择：点击即保存 -->
+  <div class="modal picker-modal" id="operator-modal" hidden>
+    <div class="modal-scrim" data-close-operator></div>
+    <section class="modal-panel picker-panel" role="dialog" aria-modal="true" aria-labelledby="operator-title" tabindex="-1">
+      <span class="corner corner-tl"></span>
+      <span class="corner corner-tr"></span>
+      <span class="corner corner-bl"></span>
+      <span class="corner corner-br"></span>
+
+      <header class="picker-head">
+        <div>
+          <p class="eyebrow" id="operator-kicker">OPERATOR / 干员</p>
+          <h2 id="operator-title">选择干员</h2>
+          <p class="picker-sub">点击干员立即保存，不需要确认按钮。</p>
+        </div>
+        <div class="picker-head-actions">
+          <button class="text-btn danger" id="clear-operator" type="button">清除干员</button>
+          <button class="icon-btn" type="button" data-close-operator aria-label="关闭干员选择">
             <span data-icon="close"></span>
           </button>
         </div>
       </header>
 
-      <div class="editor-summary" id="editor-summary" aria-live="polite"></div>
-
-      <div class="editor-body">
-        <div class="operator-pane">
-          <div class="section-title">
-            <h3>选择干员</h3>
-            <span id="operator-result-count" aria-live="polite">17 名干员</span>
-          </div>
-
-          <div class="operator-toolbar">
-            <div class="filter-tabs" id="filter-tabs" role="group" aria-label="按定位筛选干员">
-              <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
-              <button class="filter-btn" type="button" data-filter="assault" aria-pressed="false">突击</button>
-              <button class="filter-btn" type="button" data-filter="engineer" aria-pressed="false">工程</button>
-              <button class="filter-btn" type="button" data-filter="support" aria-pressed="false">支援</button>
-              <button class="filter-btn" type="button" data-filter="recon" aria-pressed="false">侦察</button>
-            </div>
-            <label class="search-box">
-              <span class="visually-hidden">搜索干员</span>
-              <span data-icon="search"></span>
-              <input id="operator-search" type="search" placeholder="搜索干员 / 代号" autocomplete="off" spellcheck="false">
-            </label>
-          </div>
-
-          <div class="operator-grid" id="operator-grid"></div>
+      <div class="picker-toolbar">
+        <div class="section-title">
+          <h3>选择干员</h3>
+          <span id="operator-result-count" aria-live="polite">17 名干员</span>
         </div>
-
-        <aside class="detail-pane" aria-label="选填信息">
-          <section class="detail-block">
-            <div class="detail-head">
-              <h3>头甲等级</h3>
-              <span>1–6 级 · 选填</span>
-            </div>
-            <div class="armor-options" id="armor-options"></div>
-          </section>
-
-          <section class="detail-block">
-            <div class="detail-head">
-              <h3>死后</h3>
-              <span>状态 + 备注 · 选填</span>
-            </div>
-            <div class="death-options" id="death-options"></div>
-            <label class="death-note">
-              <span class="visually-hidden">死后备注</span>
-              <textarea id="death-note" maxlength="80" placeholder="选填：掉落点、装备安排、交接信息…"></textarea>
-              <span class="death-char-count" id="death-char-count">0 / 80</span>
-            </label>
-          </section>
-
-          <section class="detail-block">
-            <div class="detail-head">
-              <h3>皮肤</h3>
-              <span>外观记录 · 选填</span>
-            </div>
-            <div class="skin-options" id="skin-options"></div>
-          </section>
-        </aside>
+        <div class="operator-toolbar">
+          <div class="filter-tabs" id="filter-tabs" role="group" aria-label="按定位筛选干员">
+            <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button class="filter-btn" type="button" data-filter="assault" aria-pressed="false">突击</button>
+            <button class="filter-btn" type="button" data-filter="engineer" aria-pressed="false">工程</button>
+            <button class="filter-btn" type="button" data-filter="support" aria-pressed="false">支援</button>
+            <button class="filter-btn" type="button" data-filter="recon" aria-pressed="false">侦察</button>
+          </div>
+          <label class="search-box">
+            <span class="visually-hidden">搜索干员</span>
+            <span data-icon="search"></span>
+            <input id="operator-search" type="search" placeholder="搜索干员 / 代号" autocomplete="off" spellcheck="false">
+          </label>
+        </div>
       </div>
 
-      <footer class="editor-foot">
-        <button class="text-btn danger" id="reset-slot" type="button">
-          <span data-icon="reset"></span>
-          清空此位
-        </button>
-        <div class="editor-foot-actions">
-          <button class="btn btn-ghost" type="button" data-close-editor>取消</button>
-          <button class="btn btn-primary" id="apply-slot" type="button">保存此位</button>
+      <div class="picker-body">
+        <div class="operator-grid" id="operator-grid"></div>
+        <p class="picker-footnote">点击任意干员即刻记录 · 再次点击此席位即可更换或补充信息</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 头甲：头盔 + 盔甲，两项都选完自动保存 -->
+  <div class="modal armor-modal" id="armor-modal" hidden>
+    <div class="modal-scrim" data-close-armor></div>
+    <section class="modal-panel armor-panel" role="dialog" aria-modal="true" aria-labelledby="armor-title" tabindex="-1">
+      <span class="corner corner-tl"></span>
+      <span class="corner corner-tr"></span>
+      <span class="corner corner-bl"></span>
+      <span class="corner corner-br"></span>
+
+      <header class="picker-head">
+        <div>
+          <p class="eyebrow" id="armor-kicker">LOADOUT / 头甲</p>
+          <h2 id="armor-title">头盔与盔甲</h2>
+          <p class="picker-sub">先选头盔，再选盔甲；第二次点选自动保存。</p>
         </div>
-      </footer>
+        <div class="picker-head-actions">
+          <span class="armor-progress" id="armor-progress">0 / 2</span>
+          <button class="icon-btn" type="button" data-close-armor aria-label="关闭头甲选择">
+            <span data-icon="close"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="armor-body">
+        <section class="armor-section" aria-labelledby="helmet-heading">
+          <div class="armor-section-head">
+            <div>
+              <p class="armor-section-kicker">HELMET</p>
+              <h3 id="helmet-heading">头盔等级</h3>
+            </div>
+            <span class="armor-section-note">上半段</span>
+          </div>
+          <div class="armor-level-grid" id="helmet-grid"></div>
+        </section>
+
+        <section class="armor-section" aria-labelledby="vest-heading">
+          <div class="armor-section-head">
+            <div>
+              <p class="armor-section-kicker">BODY ARMOR</p>
+              <h3 id="vest-heading">盔甲等级</h3>
+            </div>
+            <span class="armor-section-note">下半段</span>
+          </div>
+          <div class="armor-level-grid" id="vest-grid"></div>
+        </section>
+
+        <p class="auto-hint" id="armor-hint">依次点选头盔和盔甲，两项都选好后自动保存。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 皮肤：按干员显示，点击即保存 -->
+  <div class="modal skin-modal" id="skin-modal" hidden>
+    <div class="modal-scrim" data-close-skin></div>
+    <section class="modal-panel skin-panel" role="dialog" aria-modal="true" aria-labelledby="skin-title" tabindex="-1">
+      <span class="corner corner-tl"></span>
+      <span class="corner corner-tr"></span>
+      <span class="corner corner-bl"></span>
+      <span class="corner corner-br"></span>
+
+      <header class="picker-head">
+        <div>
+          <p class="eyebrow" id="skin-kicker">SKIN / 皮肤</p>
+          <h2 id="skin-title">选择皮肤</h2>
+          <p class="picker-sub">只显示该干员可用的皮肤，点击即保存。</p>
+        </div>
+        <button class="icon-btn" type="button" data-close-skin aria-label="关闭皮肤选择">
+          <span data-icon="close"></span>
+        </button>
+      </header>
+
+      <div class="skin-body">
+        <div class="skin-operator" id="skin-summary"></div>
+        <div class="skin-option-grid" id="skin-options"></div>
+        <p class="auto-hint" id="skin-hint">选择后自动保存；关闭后可随时更换。</p>
+      </div>
     </section>
   </div>
 
@@ -228,7 +339,7 @@
     <section class="modal-panel confirm-panel" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc" tabindex="-1">
       <span class="confirm-icon" aria-hidden="true"><span data-icon="trash"></span></span>
       <h2 id="confirm-title">清空全部编成？</h2>
-      <p id="confirm-desc">18 个席位的干员、头甲、死后与皮肤记录都会被移除。此操作无法撤销，建议先导出 JSON 备份。</p>
+      <p id="confirm-desc">18 个席位的干员、头甲、皮肤与存活状态都会被移除。此操作无法撤销，建议先导出 JSON 备份。</p>
       <div class="confirm-actions">
         <button class="btn btn-outline" type="button" data-close-confirm>取消</button>
         <button class="btn btn-danger" id="confirm-clear" type="button">确认清空</button>
@@ -239,12 +350,12 @@
   <div class="toast-root" id="toast-root" aria-live="polite"></div>
 
   <noscript>
-    <p style="padding:20px;color:#e3a34d">这个本地编成台需要 JavaScript 才能记录席位，请在浏览器中启用 JavaScript。</p>
+    <p style="padding:20px;color:#e3a34d">这个本地快速编成台需要 JavaScript 才能记录席位，请在浏览器中启用 JavaScript。</p>
   </noscript>
 
-  <script src="js/core.js" defer></script>
-  <script src="js/data.js" defer></script>
-  <script src="js/store.js" defer></script>
-  <script src="js/board.js" defer></script>
+  <script src="js/core.js?v=2" defer></script>
+  <script src="js/data.js?v=2" defer></script>
+  <script src="js/store.js?v=2" defer></script>
+  <script src="js/board.js?v=2" defer></script>
 </body>
 </html>

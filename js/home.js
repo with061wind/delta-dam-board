@@ -19,11 +19,11 @@
     const mapButton = document.getElementById('resume-map');
     const saved = document.getElementById('resume-saved');
 
-    setText('hero-configured', Delta.pad(stats.configured, 2));
+    setText('hero-configured', Delta.pad(stats.operators, 2));
     setText('resume-operators', Delta.pad(stats.operators, 2));
     setText('resume-slots', Delta.pad(stats.configured, 2));
     setText('resume-percent', stats.percent + '%');
-    setText('resume-progress-text', stats.configured + ' / 18');
+    setText('resume-progress-text', stats.operators + ' / 18');
 
     const progress = document.getElementById('resume-progress-bar');
     if (progress) progress.style.width = stats.percent + '%';
@@ -35,8 +35,8 @@
     }
     if (desc) {
       desc.textContent = hasData
-        ? '已记录 ' + stats.operators + ' 名干员、' + stats.configured + ' 个已填席位。编成只保存在当前浏览器，继续补充或调整都可以。'
-        : '选择零号大坝后，所有内容会自动保存在当前浏览器；不需要登录，也不会上传。';
+        ? '已记录 ' + stats.operators + ' 名干员、' + stats.configured + ' 个席位有补充信息。编成只保存在当前浏览器，继续补充或调整都可以。'
+        : '选择零号大坝后，先记本局出生，再点干员快速记录；所有内容自动保存在当前浏览器。';
     }
     if (link) {
       link.hidden = !hasData;

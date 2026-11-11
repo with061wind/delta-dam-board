@@ -141,6 +141,7 @@ button {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 img,
@@ -908,7 +909,7 @@ ol {
 
   .toast-root {
     right: 16px;
-    bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
   }
 }
 
